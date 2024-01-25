@@ -1,11 +1,11 @@
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
-
   return (
     <>
-      <p className="bg-red-500">Hello</p>
+      <MainLayout />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
