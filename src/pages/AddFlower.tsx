@@ -10,6 +10,7 @@ import {
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useCreateFlowerMutation } from "../redux/features/flower/flowerApi";
 
 export type IFlower = {
   name: string;
@@ -17,14 +18,15 @@ export type IFlower = {
   price: string;
   quantity: number;
   bloom_date: string;
-  color: string;
-  type: string;
-  size: string;
-  fragrance: string;
-  occation: string;
+  color: { value: string };
+  type: { value: string };
+  size: { value: string };
+  fragrance: { value: string };
+  occation: { value: string };
 };
 
 const AddFlower = () => {
+  const [createFlower, {isSuccess, error}] = useCreateFlowerMutation()
   const {
     control,
     register,
@@ -32,16 +34,65 @@ const AddFlower = () => {
     // reset,
     formState: { errors },
   } = useForm<IFlower>();
+
+  if(isSuccess) {
+    console.log("add Success");
+  }
+  if(error) {
+    console.log(error);
+  }
+
+  const img_hosting_token = import.meta.env.VITE_PUBLIC_IMAGE_UPLOAD;
+
   const onSubmit: SubmitHandler<IFlower> = async (data) => {
-    console.log("form data", data);
-    // reset()
+    // console.log("form data", data);
+    const formData = new FormData();
+    formData.append("image", data.img[0]);
+
+    try {
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${img_hosting_token}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const responseData = await response.json();
+
+      // console.log("response Data", responseData?.data?.url);
+
+      const formattedDate = data.bloom_date ? new Date(data.bloom_date).toISOString().split('T')[0] : '';
+
+      const flowerData = {
+        ...data,
+        img: responseData?.data?.url,
+        bloom_date: formattedDate,
+        color: data?.color?.value,
+        type: data?.type?.value,
+        size: data?.size?.value,
+        fragrance: data?.fragrance?.value,
+        occation: data?.occation?.value,
+      };
+
+      console.log("payload", flowerData);
+
+      await createFlower(flowerData);
+      // setImage(null);
+      // reset();
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   return (
     <div className="p-5">
       <h1 className="text-[18px] font-bold text-green w-full">Add Flower</h1>
       <div className="mt-10 w-full flex justify-center">
-        <form className="w-full md:w-[60%] lg:w-[40%] shadow-md p-10" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="w-full md:w-[60%] lg:w-[40%] shadow-md p-10"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="flex flex-col mb-2">
             <label htmlFor="">Name</label>
             <input
@@ -108,12 +159,15 @@ const AddFlower = () => {
               <Controller
                 control={control}
                 name="bloom_date"
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={({
+                  field: { onChange, onBlur, value },
+                }) => (
                   <DatePicker
                     showIcon
                     minDate={new Date()}
                     onChange={onChange}
                     onBlur={onBlur}
+                    dateFormat="yyyy-MM-dd"
                     selected={value ? new Date(value) : null}
                   />
                 )}
