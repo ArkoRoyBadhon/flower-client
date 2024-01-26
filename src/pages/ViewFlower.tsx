@@ -13,7 +13,7 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { stateType } from "../types/addFlowerType";
-
+import Pagination from "../utils/pagination";
 
 const ViewFlower = () => {
   const [Dmodal, setDModal] = useState(false);
@@ -23,14 +23,12 @@ const ViewFlower = () => {
   const [searchVal, setSearchVal] = useState("");
   const [selectedColor, setSelectedColor] = useState<stateType | null>();
   const [selectedType, setSelectedType] = useState<stateType | null>();
-  const [selectedSize, setSelectedSize] =
-    useState<stateType | null>();
+  const [selectedSize, setSelectedSize] = useState<stateType | null>();
   const [selectedFragrance, setSelectedFragrance] =
     useState<stateType | null>();
-  const [selectedOccation, setSelectedOccation] =
-    useState<stateType | null>();
+  const [selectedOccation, setSelectedOccation] = useState<stateType | null>();
   const [selectedBloom, setSelectedBloom] = useState<any>("");
-
+  const [pageNum, setPageNum] = useState("1");
   // edit
   // const [editUser, setEditUser] = useState(false);
   // const [EUser, setEUser] = useState<any>();
@@ -52,6 +50,7 @@ const ViewFlower = () => {
     selectedSize,
     selectedType,
     selectedBloom,
+    pageNum,
   });
   // const [deleteUser, { isSuccess: isSuccessError, error }] =
   //   useDeleteUserMutation();
@@ -139,15 +138,13 @@ const ViewFlower = () => {
     setSearchVal(searchValue);
   };
 
-  // const handleSelectChange = (e: any) => {
-  //   setSelectedGender(e.target.value);
-  // };
-  if (selectedType) {
-    console.log(selectedType);
-  } else {
-    console.log("nulll");
-  }
-  console.log("data", AllFlower);
+  const pageCount = Math.ceil(
+    Number(AllFlower?.data?.meta?.count) / Number(AllFlower?.data?.meta?.limit)
+  );
+
+  const handlePageChange = (page: any) => {
+    setPageNum(page);
+  };
 
   return (
     <div className="p-10 relative">
@@ -301,6 +298,14 @@ const ViewFlower = () => {
               })}
           </tbody>
         </table>
+        <div className="mt-10">
+          <div className="flex justify-center">
+            <Pagination
+              totalPages={pageCount}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
