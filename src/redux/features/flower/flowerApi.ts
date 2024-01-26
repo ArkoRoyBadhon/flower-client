@@ -11,7 +11,7 @@ const flowerApi = api.injectEndpoints({
       invalidatesTags: ["flower"],
     }),
     getAllFlower: builder.query({
-      query: ({...option}) => ({
+      query: ({ ...option }) => ({
         url: `/flower/get-flowers`,
         params: {
           sortBy: option?.sortBy,
@@ -20,16 +20,33 @@ const flowerApi = api.injectEndpoints({
           limit: 4,
           ...(option?.pageNum && { page: option.pageNum }),
           ...(option?.selectedColor && { color: option.selectedColor.value }),
-          ...(option?.selectedFragrance && { fragrance: option.selectedFragrance.value }),
-          ...(option?.selectedOccation && { occation: option.selectedOccation.value }),
+          ...(option?.selectedFragrance && {
+            fragrance: option.selectedFragrance.value,
+          }),
+          ...(option?.selectedOccation && {
+            occation: option.selectedOccation.value,
+          }),
           ...(option?.selectedSize && { size: option.selectedSize.value }),
           ...(option?.selectedType && { type: option.selectedType.value }),
-          ...(option?.selectedBloom && { bloom_date: option.selectedBloom.value }),
+          ...(option?.selectedBloom && {
+            bloom_date: option.selectedBloom.value,
+          }),
         },
-        providesTags: ["flower"],
       }),
+      providesTags: ["flower"],
+    }),
+    deleteFlower: builder.mutation({
+      query: (id) => ({
+        url: `/flower/delete-flower/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["flower"],
     }),
   }),
 });
 
-export const { useCreateFlowerMutation,useGetAllFlowerQuery } = flowerApi;
+export const {
+  useCreateFlowerMutation,
+  useGetAllFlowerQuery,
+  useDeleteFlowerMutation,
+} = flowerApi;

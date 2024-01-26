@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
+import { useDeleteFlowerMutation, useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
 import Select from "react-select";
 import {
   colorOptions,
@@ -52,8 +52,8 @@ const ViewFlower = () => {
     selectedBloom,
     pageNum,
   });
-  // const [deleteUser, { isSuccess: isSuccessError, error }] =
-  //   useDeleteUserMutation();
+  const [deleteFlower, { isSuccess: isSuccessDelete, error }] =
+    useDeleteFlowerMutation();
   // const [updateUser, { isSuccess: isSuccessUpdate, error: errorUpdate }] =
   //   useUpdateUserMutation();
 
@@ -118,17 +118,17 @@ const ViewFlower = () => {
   );
 
   const handleDelUser = (id: string) => {
-    // deleteUser({ id });
+    deleteFlower(id);
     console.log(id);
   };
 
-  // if (isSuccessError) {
-  //   console.log("delete success");
-  // }
+  if (isSuccessDelete) {
+    console.log("delete success");
+  }
 
-  // if (error) {
-  //   console.log("error", (error as any)?.data.message);
-  // }
+  if (error) {
+    console.log("error", (error as any)?.data.message);
+  }
 
   // if (errorUpdate) {
   //   console.log("error", (errorUpdate as any)?.data.message);
