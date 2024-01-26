@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const colorOptions: any = [
-  { value: "", label: "Select" },
+export const colorOptions: {value:string, label:string}[] = [
   { value: "red", label: "Red" },
   { value: "white", label: "White" },
   { value: "yellow", label: "Yellow" },
@@ -11,8 +10,7 @@ export const colorOptions: any = [
   { value: "purple", label: "Purple" },
 ];
 
-export const typeOptions: any = [
-  { value: null, label: "Select" },
+export const typeOptions: {value:string, label:string}[] = [
   { value: "rose", label: "Rose" },
   { value: "lily", label: "Lily" },
   { value: "tulip", label: "Tulip" },
@@ -22,15 +20,13 @@ export const typeOptions: any = [
   { value: "carnation", label: "Carnation" },
 ];
 
-export const sizeOptions: any = [
-  { value: "", label: "Select" },
+export const sizeOptions: {value:string, label:string}[] = [
   { value: "small", label: "Small" },
   { value: "medium", label: "Medium" },
   { value: "large", label: "Large" },
 ];
 
-export const fragranceOptions: any = [
-  { value: "", label: "Select" },
+export const fragranceOptions: {value:string, label:string}[] = [
   { value: "rose-scented", label: "Rose-scented" },
   { value: "mild", label: "Mild" },
   { value: "sweet", label: "Sweet" },
@@ -42,8 +38,7 @@ export const fragranceOptions: any = [
   { value: "fruity", label: "Fruity" },
 ];
 
-export const occationOptions: any = [
-  { value: "", label: "Select" },
+export const occationOptions: {value:string, label:string}[] = [
   { value: "anniversary", label: "Anniversary" },
   { value: "birthday", label: "Birthday" },
   { value: "wedding", label: "Wedding" },

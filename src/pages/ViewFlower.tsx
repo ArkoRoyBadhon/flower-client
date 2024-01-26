@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
-import Select, { ValueType } from "react-select";
+import Select from "react-select";
 import {
   colorOptions,
   fragranceOptions,
@@ -12,24 +12,23 @@ import {
 // import EditModals from "../modals/editModals";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { stateType } from "../types/addFlowerType";
+
 
 const ViewFlower = () => {
-  // manage user
   const [Dmodal, setDModal] = useState(false);
   const [DmodalData, setDModalData] = useState<any>();
 
   const [searchValue, setSearchValue] = useState("");
   const [searchVal, setSearchVal] = useState("");
-  const [selectedColor, setSelectedColor] =
-    useState<ValueType<{ value: string | null }>>("");
-  const [selectedType, setSelectedType] =
-    useState<ValueType<{ value: string }>>("");
+  const [selectedColor, setSelectedColor] = useState<stateType | null>();
+  const [selectedType, setSelectedType] = useState<stateType | null>();
   const [selectedSize, setSelectedSize] =
-    useState<ValueType<{ value: string }>>("");
+    useState<stateType | null>();
   const [selectedFragrance, setSelectedFragrance] =
-    useState<ValueType<{ value: string }>>("");
+    useState<stateType | null>();
   const [selectedOccation, setSelectedOccation] =
-    useState<ValueType<{ value: string }>>("");
+    useState<stateType | null>();
   const [selectedBloom, setSelectedBloom] = useState<any>("");
 
   // edit
@@ -60,7 +59,7 @@ const ViewFlower = () => {
   //   useUpdateUserMutation();
 
   const detailModal = (
-    <div className="fixed top-[100px] h-[400px] bg-gray-200 shadow-md w-[400px] rounded-md overflow-hidden overflow-y-auto">
+    <div className="fixed z-10 top-[100px] h-[400px] bg-gray-200 shadow-md w-[400px] rounded-md overflow-hidden overflow-y-auto">
       <div className="flex justify-end">
         <div
           className="cursor-pointer
@@ -143,12 +142,11 @@ const ViewFlower = () => {
   // const handleSelectChange = (e: any) => {
   //   setSelectedGender(e.target.value);
   // };
-if(selectedType) {
-  console.log(selectedType);
-} else {
-  console.log("nulll");
-  
-}
+  if (selectedType) {
+    console.log(selectedType);
+  } else {
+    console.log("nulll");
+  }
   console.log("data", AllFlower);
 
   return (
@@ -262,8 +260,10 @@ if(selectedType) {
               {/* Add more headers as needed */}
             </tr>
           </thead>
+          {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
           <tbody>
-            {AllFlower &&
+            {isSuccess &&
+              AllFlower &&
               AllFlower?.data?.data.map((item: any) => {
                 return (
                   <tr key={item._id}>
@@ -288,8 +288,8 @@ if(selectedType) {
                       </button>
                       <button
                         onClick={() => {
-                          setEditUser(true);
-                          setEUser(item);
+                          // setEditUser(true);
+                          // setEUser(item);
                         }}
                         className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
                       >

@@ -1,4 +1,4 @@
-export interface ColorData {
+export interface stateType {
     value: string;
     label: string;
   }
