@@ -141,7 +141,7 @@ const AddFlower = () => {
                 control={control}
                 name="type"
                 render={({ field }) => (
-                  <Select isMulti options={typeOptions} {...field} />
+                  <Select options={typeOptions} {...field} />
                 )}
               />
             </div>
@@ -154,7 +154,7 @@ const AddFlower = () => {
                 control={control}
                 name="size"
                 render={({ field }) => (
-                  <Select isMulti options={sizeOptions} {...field} />
+                  <Select options={sizeOptions} {...field} />
                 )}
               />
             </div>
@@ -166,7 +166,7 @@ const AddFlower = () => {
                 control={control}
                 name="fragrance"
                 render={({ field }) => (
-                  <Select isMulti options={fragranceOptions} {...field} />
+                  <Select options={fragranceOptions} {...field} />
                 )}
               />
             </div>
@@ -178,7 +178,7 @@ const AddFlower = () => {
                 control={control}
                 name="occation"
                 render={({ field }) => (
-                  <Select isMulti options={occationOptions} {...field} />
+                  <Select options={occationOptions} {...field} />
                 )}
               />
             </div>
@@ -186,9 +186,9 @@ const AddFlower = () => {
 
           <div className="flex flex-col mt-5">
             <input
-              className="bg-deeper py-2 rounded-md cursor-pointer text-white mx-auto w-full md:w-[60%]"
+              className="bg-green py-2 rounded-md cursor-pointer text-white mx-auto w-full md:w-[60%]"
               type="submit"
-              value="Add Tutor"
+              value="Add Flower"
             />
           </div>
         </form>
