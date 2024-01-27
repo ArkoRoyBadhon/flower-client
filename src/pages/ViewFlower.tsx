@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useDeleteFlowerMutation, useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
+import {
+  useDeleteFlowerMutation,
+  useGetAllFlowerQuery,
+} from "../redux/features/flower/flowerApi";
 import Select from "react-select";
 import {
   colorOptions,
@@ -15,8 +18,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { stateType } from "../types/addFlowerType";
 import Pagination from "../utils/pagination";
 import EditModals from "../components/editModals";
+import { useAppSelector } from "../redux/hook";
 
 const ViewFlower = () => {
+  const { user } = useAppSelector((state) => state.user);
   const [Dmodal, setDModal] = useState(false);
   const [DmodalData, setDModalData] = useState<any>();
 
@@ -33,11 +38,6 @@ const ViewFlower = () => {
   // edit
   const [editFlower, setEditFlower] = useState<boolean | any>(false);
   const [EFlower, setEFlower] = useState<any>();
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const formattedDate = selectedBloom
-    ? new Date(selectedBloom).toISOString().split("T")[0]
-    : "";
 
   const {
     data: AllFlower,
@@ -154,160 +154,176 @@ const ViewFlower = () => {
       </h2>
 
       {Dmodal && detailModal}
-      {editFlower && <EditModals EFlower={EFlower} setEditFlower={setEditFlower} />}
+      {editFlower && (
+        <EditModals EFlower={EFlower} setEditFlower={setEditFlower} />
+      )}
 
-      <div className="mt-5">
-        <h4 className="">Filter</h4>
-        <div className="">
-          <div className="h-fit py-5">
-            <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
-              <input
-                className="w-full px-2 outline-none"
-                onChange={(e) => setSearchValue(e.target.value)}
-                type="text"
-                placeholder="Search"
-              />
-              <p
-                onClick={() => handleSearch()}
-                className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
-              >
-                Search
-              </p>
+      {!user.email ? (
+        <div className="p-10">
+          <h5 className="font-bold text-[24px]">
+            Please Login to access this page!
+          </h5>
+        </div>
+      ) : (
+        <>
+          <div className="mt-5">
+            <h4 className="">Filter</h4>
+            <div className="">
+              <div className="h-fit py-5">
+                <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
+                  <input
+                    className="w-full px-2 outline-none"
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    type="text"
+                    placeholder="Search"
+                  />
+                  <p
+                    onClick={() => handleSearch()}
+                    className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
+                  >
+                    Search
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-5 w-fit pt-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Color:</label>
+                    <Select
+                      name="color"
+                      options={colorOptions}
+                      isClearable={true}
+                      onChange={(selectedOption) =>
+                        setSelectedColor(selectedOption)
+                      }
+                      value={selectedColor}
+                    />
+                  </div>
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Type:</label>
+                    <Select
+                      name="type"
+                      options={typeOptions}
+                      isClearable={true}
+                      onChange={(selectedOption) =>
+                        setSelectedType(selectedOption)
+                      }
+                      value={selectedType}
+                    />
+                  </div>
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Size:</label>
+                    <Select
+                      name="size"
+                      options={sizeOptions}
+                      isClearable={true}
+                      onChange={(selectedOption) =>
+                        setSelectedSize(selectedOption)
+                      }
+                      value={selectedSize}
+                    />
+                  </div>
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Fragrance:</label>
+                    <Select
+                      name="fragrance"
+                      options={fragranceOptions}
+                      isClearable={true}
+                      onChange={(selectedOption) =>
+                        setSelectedFragrance(selectedOption)
+                      }
+                      value={selectedFragrance}
+                    />
+                  </div>
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Occation:</label>
+                    <Select
+                      name="occation"
+                      options={occationOptions}
+                      isClearable={true}
+                      onChange={(selectedOption) =>
+                        setSelectedOccation(selectedOption)
+                      }
+                      value={selectedOccation}
+                    />
+                  </div>
+
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                    <label htmlFor="selectgender">Bloom Date:</label>
+                    <DatePicker
+                      showIcon
+                      // minDate={new Date()}
+                      onChange={(date) => setSelectedBloom(date)}
+                      dateFormat="yyyy-MM-dd"
+                      selected={selectedBloom ? new Date(selectedBloom) : null}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-5 w-fit pt-5">
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Color:</label>
-                <Select
-                  name="color"
-                  options={colorOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedColor(selectedOption)
-                  }
-                  value={selectedColor}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Type:</label>
-                <Select
-                  name="type"
-                  options={typeOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) => setSelectedType(selectedOption)}
-                  value={selectedType}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Size:</label>
-                <Select
-                  name="size"
-                  options={sizeOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) => setSelectedSize(selectedOption)}
-                  value={selectedSize}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Fragrance:</label>
-                <Select
-                  name="fragrance"
-                  options={fragranceOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedFragrance(selectedOption)
-                  }
-                  value={selectedFragrance}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Occation:</label>
-                <Select
-                  name="occation"
-                  options={occationOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedOccation(selectedOption)
-                  }
-                  value={selectedOccation}
-                />
-              </div>
+          </div>
 
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Bloom Date:</label>
-                <DatePicker
-                  showIcon
-                  // minDate={new Date()}
-                  onChange={(date) => setSelectedBloom(date)}
-                  dateFormat="yyyy-MM-dd"
-                  selected={selectedBloom ? new Date(selectedBloom) : null}
+          <div className="overflow-x-auto">
+            <table className="mt-5 min-w-full border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b text-left">Name</th>
+                  <th className="py-2 px-4 border-b text-left">Type</th>
+                  <th className="py-2 px-4 border-b text-left">Size</th>
+                  <th className="py-2 px-4 border-b text-left">Action</th>
+                  {/* Add more headers as needed */}
+                </tr>
+              </thead>
+              {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
+              <tbody>
+                {isSuccess &&
+                  AllFlower &&
+                  AllFlower?.data?.data.map((item: any) => {
+                    return (
+                      <tr key={item._id}>
+                        <td className="py-2 px-4 border-b">{item.name}</td>
+                        <td className="py-2 px-4 border-b">{item.type}</td>
+                        <td className="py-2 px-4 border-b">{item.size}</td>
+                        <td className="py-2 px-4 border-b flex gap-2">
+                          <button
+                            onClick={() => {
+                              setDModal(true);
+                              setDModalData(item);
+                            }}
+                            className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
+                          >
+                            Detail
+                          </button>
+                          <button
+                            onClick={() => handleDelUser(item?._id)}
+                            className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => {
+                              setEditFlower(true);
+                              setEFlower(item);
+                            }}
+                            className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+            <div className="mt-10">
+              <div className="flex justify-center">
+                <Pagination
+                  totalPages={pageCount}
+                  onPageChange={handlePageChange}
                 />
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="mt-5 min-w-full border border-gray-300">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b text-left">Name</th>
-              <th className="py-2 px-4 border-b text-left">Type</th>
-              <th className="py-2 px-4 border-b text-left">Size</th>
-              <th className="py-2 px-4 border-b text-left">Action</th>
-              {/* Add more headers as needed */}
-            </tr>
-          </thead>
-          {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
-          <tbody>
-            {isSuccess &&
-              AllFlower &&
-              AllFlower?.data?.data.map((item: any) => {
-                return (
-                  <tr key={item._id}>
-                    <td className="py-2 px-4 border-b">{item.name}</td>
-                    <td className="py-2 px-4 border-b">{item.type}</td>
-                    <td className="py-2 px-4 border-b">{item.size}</td>
-                    <td className="py-2 px-4 border-b flex gap-2">
-                      <button
-                        onClick={() => {
-                          setDModal(true);
-                          setDModalData(item);
-                        }}
-                        className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
-                      >
-                        Detail
-                      </button>
-                      <button
-                        onClick={() => handleDelUser(item?._id)}
-                        className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditFlower(true);
-                          setEFlower(item);
-                        }}
-                        className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-        <div className="mt-10">
-          <div className="flex justify-center">
-            <Pagination
-              totalPages={pageCount}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
