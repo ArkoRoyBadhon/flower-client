@@ -30,6 +30,7 @@ const Login = () => {
       //   console.log("log success");
       // }
       // storeUserInfo({ accessToken: res?.accessToken });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err.message);
     }
