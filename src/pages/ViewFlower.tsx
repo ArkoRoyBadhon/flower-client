@@ -149,7 +149,7 @@ const ViewFlower = () => {
 
   return (
     <div className="p-10 relative">
-      <h2 className="text-center font-bold underline text-xl">
+      <h2 className="text-[24px] font-bold text-green w-full">
         Manage Flowers
       </h2>
 
@@ -159,7 +159,7 @@ const ViewFlower = () => {
       )}
 
       {!user.email ? (
-        <div className="p-10">
+        <div className="">
           <h5 className="font-bold text-[24px]">
             Please Login to access this page!
           </h5>
@@ -170,7 +170,7 @@ const ViewFlower = () => {
             <h4 className="">Filter</h4>
             <div className="">
               <div className="h-fit py-5">
-                <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
+                <div className="flex outline md:w-[400px] rounded-md outline-1 outline-light">
                   <input
                     className="w-full px-2 outline-none"
                     onChange={(e) => setSearchValue(e.target.value)}
@@ -185,7 +185,7 @@ const ViewFlower = () => {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-5 w-fit pt-5">
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Color:</label>
                     <Select
                       name="color"
@@ -197,7 +197,7 @@ const ViewFlower = () => {
                       value={selectedColor}
                     />
                   </div>
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Type:</label>
                     <Select
                       name="type"
@@ -209,7 +209,7 @@ const ViewFlower = () => {
                       value={selectedType}
                     />
                   </div>
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Size:</label>
                     <Select
                       name="size"
@@ -221,7 +221,7 @@ const ViewFlower = () => {
                       value={selectedSize}
                     />
                   </div>
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Fragrance:</label>
                     <Select
                       name="fragrance"
@@ -233,7 +233,7 @@ const ViewFlower = () => {
                       value={selectedFragrance}
                     />
                   </div>
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Occation:</label>
                     <Select
                       name="occation"
@@ -246,11 +246,11 @@ const ViewFlower = () => {
                     />
                   </div>
 
-                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Bloom Date:</label>
                     <DatePicker
+                      className="w-[100px] md:w-full"
                       showIcon
-                      // minDate={new Date()}
                       onChange={(date) => setSelectedBloom(date)}
                       dateFormat="yyyy-MM-dd"
                       selected={selectedBloom ? new Date(selectedBloom) : null}
@@ -261,7 +261,7 @@ const ViewFlower = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto w-[100%]">
             <table className="mt-5 min-w-full border border-gray-300">
               <thead>
                 <tr>
@@ -313,13 +313,13 @@ const ViewFlower = () => {
                   })}
               </tbody>
             </table>
-            <div className="mt-10">
-              <div className="flex justify-center">
-                <Pagination
-                  totalPages={pageCount}
-                  onPageChange={handlePageChange}
-                />
-              </div>
+          </div>
+          <div className="mt-10">
+            <div className="flex justify-center">
+              <Pagination
+                totalPages={pageCount}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
         </>

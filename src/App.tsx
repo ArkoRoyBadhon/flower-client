@@ -4,6 +4,8 @@ import { useGetUserQuery } from "./redux/features/user/userApi";
 import { setLoggedInfo } from "./redux/features/user/userSlice";
 import { useAppDispatch } from "./redux/hook";
 import { useEffect } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const query = useGetUserQuery(undefined);
@@ -20,14 +22,9 @@ function App() {
     }
   }, [query.isSuccess, query.isError, query.data, dispatch, navigate]);
 
-  // Manually trigger refetch when needed
-  // const handleLogout = async () => {
-  //   await query.refetch();
-  //   // Additional logout logic if needed
-  // };
-
   return (
     <>
+      <ToastContainer />
       <MainLayout />
     </>
   );

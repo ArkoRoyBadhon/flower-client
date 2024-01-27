@@ -18,7 +18,7 @@ const SaleHistory = () => {
 
   return (
     <div className="p-10">
-      <h2 className="font-bold text-[24px]">Sale History</h2>
+      <h2 className="text-[24px] font-bold text-green w-full">Sale History</h2>
       {!user.email ? (
         <div className="p-10">
           <h5 className="font-bold text-[24px]">

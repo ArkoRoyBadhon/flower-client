@@ -65,8 +65,8 @@ const SaleManage = () => {
   };
 
   return (
-    <div className="p-5">
-      <h1 className="text-[18px] font-bold text-green w-full">Manage Sale</h1>
+    <div className="p-10">
+      <h1 className="text-[24px] font-bold text-green w-full">Manage Sale</h1>
       {!user.email ? (
         <div className="p-10">
           <h5 className="font-bold text-[24px]">

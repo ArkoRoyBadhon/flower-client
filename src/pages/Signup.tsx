@@ -3,17 +3,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateUserMutation } from "../redux/features/user/userApi";
+import { toast } from "react-toastify";
 
 type FormValues = {
-    name: string
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const Signup = () => {
-    const [createUser] = useCreateUserMutation();
-    const navigate = useNavigate();
+  const [createUser, { isSuccess, error }] = useCreateUserMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -28,17 +29,29 @@ const Signup = () => {
       const res = await createUser(data).unwrap();
 
       console.log(res);
-      navigate('/login')
-      reset()
+      navigate("/login");
+      reset();
     } catch (err: any) {
       console.error(err.message);
     }
   };
 
-    return (
-        <div className="bg-gray-100 flex flex-col items-center justify-center h-screen mx-auto">
+  if (isSuccess) {
+    toast("User Register succesfully!", {
+      toastId: "register",
+    });
+  }
+
+  if (error) {
+    toast((error as any)?.data.message, {
+      toastId: "register-error",
+    });
+  }
+
+  return (
+    <div className="bg-gray-100 flex flex-col items-center justify-center min-h-screen mx-auto">
       <div className="bg-white p-4 md:p-8 rounded shadow-md w-[80%] md:w-96">
-        <h2 className="text-2xl font-semibold mb-6">Register</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-green">Register</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -52,7 +65,7 @@ const Signup = () => {
               type="text"
               id="name"
               {...register("name", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
           <div className="mb-4">
@@ -66,7 +79,7 @@ const Signup = () => {
               type="email"
               id="email"
               {...register("email", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
 
@@ -81,7 +94,7 @@ const Signup = () => {
               type="password"
               id="password"
               {...register("password", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
 
@@ -96,23 +109,17 @@ const Signup = () => {
               type="password"
               id="confirmPassword"
               {...register("confirmPassword", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className="w-full bg-green text-white p-2 rounded-md hover:bg-greener focus:outline-none focus:bg-green"
           >
             Register
           </button>
         </form>
-        {/* <hr className="mt-5 border-b border-solid border-black" /> */}
-        {/* <div className="mt-2 cursor-pointer">
-          <div className="bg-light hover:bg-deep flex items-center gap-3 py-1 justify-center rounded-md text-gray-700">
-            <FcGoogle /> <p className="">Login with Google</p>
-          </div>
-        </div> */}
       </div>
       <div className="mt-5">
         Already have an account?{" "}
@@ -121,7 +128,7 @@ const Signup = () => {
         </Link>
       </div>
     </div>
-    );
+  );
 };
 
 export default Signup;

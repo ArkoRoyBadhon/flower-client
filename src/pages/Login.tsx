@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../redux/features/user/userApi";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
+
 
 type FormValues = {
   email: string;
@@ -9,7 +12,7 @@ type FormValues = {
 };
 
 const Login = () => {
-  const [userLogin] = useLoginUserMutation();
+  const [userLogin,{isSuccess, error}] = useLoginUserMutation();
   const navigate = useNavigate();
   const {
     register,
@@ -19,26 +22,30 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      // console.log("data", data);
       const res = await userLogin(data).unwrap();
-
       console.log(res);
       navigate('/');
-      // if (res?.accessToken) {
-      //   // router.push("/");
-      //   // message.success("User logged in successfully!");
-      //   console.log("log success");
-      // }
-      // storeUserInfo({ accessToken: res?.accessToken });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err.message);
     }
   };
+  
+  if (isSuccess) {
+    toast("User Logged in succesfully!", {
+      toastId: "login",
+    });
+  }
+  
+  if (error) {
+    toast((error as any)?.data.message, {
+      toastId: "login-error",
+    });
+  }
+
   return (
     <div className="bg-gray-100 flex flex-col items-center justify-center h-screen mx-auto">
       <div className="bg-white p-4 md:p-8 rounded shadow-md w-[80%] md:w-96">
-        <h2 className="text-2xl font-semibold mb-6">Login</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-green">Login</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -52,7 +59,7 @@ const Login = () => {
               type="email"
               id="email"
               {...register("email", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
 
@@ -67,13 +74,13 @@ const Login = () => {
               type="password"
               id="password"
               {...register("password", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-green"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className="w-full bg-green text-white p-2 rounded-md hover:bg-greener focus:outline-none focus:bg-green"
           >
             Login
           </button>
@@ -81,7 +88,7 @@ const Login = () => {
       </div>
       <div className="mt-5">
         Not an account?{" "}
-        <Link className="font-bold text-deep" to="/register">
+        <Link className="font-bold text-green" to="/signup">
           Register
         </Link>
       </div>

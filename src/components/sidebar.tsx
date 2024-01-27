@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoFlowerOutline } from "react-icons/io5";
 import { MdOutlineCrisisAlert } from "react-icons/md";
@@ -12,6 +12,10 @@ const Sidebar = () => {
     if (sub === "flower") setFVisible(!isFVisible);
   };
 
+  const location = useLocation();
+  const currentRoute: string = location.pathname;
+
+
   return (
     <div className="p-5 w-full">
       <div className="mb-6">
@@ -19,13 +23,13 @@ const Sidebar = () => {
           Flower Shop
         </Link>
       </div>
-      <div className={`flex flex-col`}>
+      <div className={`flex flex-col font-semibold`}>
         <div className="inline-block outline outline-b-1 outline-white h-fit ">
           <div
-            className=" w-full  px-4 py-2 cursor-pointer flex justify-between items-center hover:bg-gray-200"
+            className={`w-full  px-4 py-2 cursor-pointer flex justify-between items-center rounded-md hover:bg-gray-200 ${(currentRoute === "/add-flower" || currentRoute === "/flower-manage") && "" }`}
             onClick={() => toggleSubMenu("flower")}
           >
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 `}>
               <IoFlowerOutline />
               <span>Flower Management</span>
             </div>
@@ -50,13 +54,13 @@ const Sidebar = () => {
               >
                 <Link
                   to="/add-flower"
-                  className="px-4 py-2 w-full hover:bg-gray-200 transition-all ease-in inline-block text-center"
+                  className={`${currentRoute === "/add-flower" && "bg-gray-200"} px-4 py-2 w-full hover:bg-gray-200 transition-all ease-in inline-block text-center rounded-md`}
                 >
                   Add Flower
                 </Link>
                 <Link
                   to="/flower-manage"
-                  className="px-4 py-2 w-full hover:bg-gray-200 transition-all ease-in inline-block text-center"
+                  className={`${currentRoute === "/flower-manage" && "bg-gray-200"} px-4 py-2 w-full hover:bg-gray-200 transition-all ease-in inline-block text-center rounded-md`}
                 >
                   Manage Flower {/* create, delete, **make admin, */}
                 </Link>
@@ -66,7 +70,7 @@ const Sidebar = () => {
         </div>
         <Link
           to="sale-manage"
-          className="inline-block text-left outline outline-b-1 outline-white h-fit hover:bg-gray-200"
+          className={`${currentRoute === "/sale-manage" && "bg-gray-200"} inline-block text-left outline outline-b-1 outline-white h-fit hover:bg-gray-200 rounded-md`}
         >
           <div className=" w-full  px-4 py-2 cursor-pointer flex items-center gap-2">
             <MdOutlineCrisisAlert />
@@ -75,7 +79,7 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/sale-history"
-          className="inline-block outline outline-b-1 outline-white h-fit hover:bg-gray-200"
+          className={`${currentRoute === "/sale-history" && "bg-gray-200"} inline-block outline outline-b-1 outline-white h-fit hover:bg-gray-200 rounded-md`}
         >
           <div className=" w-full  px-4 py-2 cursor-pointer flex items-center gap-2">
             <LuHistory />

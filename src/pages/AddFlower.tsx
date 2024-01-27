@@ -80,7 +80,7 @@ const AddFlower = () => {
 
   return (
     <div className="p-10">
-      <h1 className="text-[18px] font-bold text-green w-full">Add Flower</h1>
+      <h1 className="text-[24px] font-bold text-green w-full">Add Flower</h1>
       {!user.email ? (
         <div className="p-10">
           <h5 className="font-bold text-[24px]">
