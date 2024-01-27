@@ -2,11 +2,18 @@
 import { Link } from "react-router-dom";
 import { useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
 import { useState } from "react";
-import { colorOptions, fragranceOptions, occationOptions, sizeOptions, typeOptions } from "../components/flowerOptions";
+import {
+  colorOptions,
+  fragranceOptions,
+  occationOptions,
+  sizeOptions,
+  typeOptions,
+} from "../components/flowerOptions";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { stateType } from "../types/addFlowerType";
+import Pagination from "../utils/pagination";
 
 const SaleManage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -18,7 +25,7 @@ const SaleManage = () => {
     useState<stateType | null>();
   const [selectedOccation, setSelectedOccation] = useState<stateType | null>();
   const [selectedBloom, setSelectedBloom] = useState<any>("");
-
+  const [pageNum, setPageNum] = useState("1");
 
   const {
     data: flowerData,
@@ -33,11 +40,19 @@ const SaleManage = () => {
     selectedSize,
     selectedType,
     selectedBloom,
-    pageNum:1,
+    pageNum,
   });
-  
+
   const handleSearch = () => {
     setSearchVal(searchValue);
+  };
+
+  const pageCount = Math.ceil(
+    Number(flowerData?.data?.meta?.count) / Number(flowerData?.data?.meta?.limit)
+  );
+
+  const handlePageChange = (page: any) => {
+    setPageNum(page);
   };
 
   console.log("data", flowerData?.data?.data);
@@ -46,99 +61,103 @@ const SaleManage = () => {
     <div className="p-5">
       <h1 className="text-[18px] font-bold text-green w-full">Manage Sale</h1>
       <div className="">
-      <div className="mt-5">
-        <h4 className="">Filter</h4>
-        <div className="">
-          <div className="h-fit py-5">
-            <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
-              <input
-                className="w-full px-2 outline-none"
-                onChange={(e) => setSearchValue(e.target.value)}
-                type="text"
-                placeholder="Search"
-              />
-              <p
-                onClick={() => handleSearch()}
-                className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
-              >
-                Search
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-5 w-fit pt-5">
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Color:</label>
-                <Select
-                  name="color"
-                  options={colorOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedColor(selectedOption)
-                  }
-                  value={selectedColor}
+        <div className="mt-5">
+          <h4 className="">Filter</h4>
+          <div className="">
+            <div className="h-fit py-5">
+              <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
+                <input
+                  className="w-full px-2 outline-none"
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  type="text"
+                  placeholder="Search"
                 />
+                <p
+                  onClick={() => handleSearch()}
+                  className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
+                >
+                  Search
+                </p>
               </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Type:</label>
-                <Select
-                  name="type"
-                  options={typeOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) => setSelectedType(selectedOption)}
-                  value={selectedType}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Size:</label>
-                <Select
-                  name="size"
-                  options={sizeOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) => setSelectedSize(selectedOption)}
-                  value={selectedSize}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Fragrance:</label>
-                <Select
-                  name="fragrance"
-                  options={fragranceOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedFragrance(selectedOption)
-                  }
-                  value={selectedFragrance}
-                />
-              </div>
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Occation:</label>
-                <Select
-                  name="occation"
-                  options={occationOptions}
-                  isClearable={true}
-                  onChange={(selectedOption) =>
-                    setSelectedOccation(selectedOption)
-                  }
-                  value={selectedOccation}
-                />
-              </div>
+              <div className="flex flex-wrap gap-5 w-fit pt-5">
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Color:</label>
+                  <Select
+                    name="color"
+                    options={colorOptions}
+                    isClearable={true}
+                    onChange={(selectedOption) =>
+                      setSelectedColor(selectedOption)
+                    }
+                    value={selectedColor}
+                  />
+                </div>
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Type:</label>
+                  <Select
+                    name="type"
+                    options={typeOptions}
+                    isClearable={true}
+                    onChange={(selectedOption) =>
+                      setSelectedType(selectedOption)
+                    }
+                    value={selectedType}
+                  />
+                </div>
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Size:</label>
+                  <Select
+                    name="size"
+                    options={sizeOptions}
+                    isClearable={true}
+                    onChange={(selectedOption) =>
+                      setSelectedSize(selectedOption)
+                    }
+                    value={selectedSize}
+                  />
+                </div>
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Fragrance:</label>
+                  <Select
+                    name="fragrance"
+                    options={fragranceOptions}
+                    isClearable={true}
+                    onChange={(selectedOption) =>
+                      setSelectedFragrance(selectedOption)
+                    }
+                    value={selectedFragrance}
+                  />
+                </div>
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Occation:</label>
+                  <Select
+                    name="occation"
+                    options={occationOptions}
+                    isClearable={true}
+                    onChange={(selectedOption) =>
+                      setSelectedOccation(selectedOption)
+                    }
+                    value={selectedOccation}
+                  />
+                </div>
 
-              <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
-                <label htmlFor="selectgender">Bloom Date:</label>
-                <DatePicker
-                  showIcon
-                  // minDate={new Date()}
-                  onChange={(date) => setSelectedBloom(date)}
-                  dateFormat="yyyy-MM-dd"
-                  selected={selectedBloom ? new Date(selectedBloom) : null}
-                />
+                <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center gap-5 mb-5">
+                  <label htmlFor="selectgender">Bloom Date:</label>
+                  <DatePicker
+                    showIcon
+                    // minDate={new Date()}
+                    onChange={(date) => setSelectedBloom(date)}
+                    dateFormat="yyyy-MM-dd"
+                    selected={selectedBloom ? new Date(selectedBloom) : null}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
         <hr />
         <div className="mt-5 grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-x-10 gap-x-0">
-          {flowerData?.data?.data?.map((item:any) => {
+          {flowerData?.data?.data?.map((item: any) => {
             return (
               <div
                 key={item?._id}
@@ -163,21 +182,27 @@ const SaleManage = () => {
                     <span className="font-semibold">Quantity: </span>
                     {item?.quantity}
                   </p>
-                  <div className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center">
-                    Update
-                  </div>
                   <Link to={`/single-service/${item?._id}`} className="">
                     <div className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center">
                       View
                     </div>
                   </Link>
                   <div className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center">
-                    Delete
+                    Sell
                   </div>
                 </div>
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-10">
+          <div className="flex justify-center">
+            <Pagination
+              totalPages={pageCount}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </div>
       </div>
     </div>
