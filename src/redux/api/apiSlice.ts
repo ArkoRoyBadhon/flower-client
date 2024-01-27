@@ -7,6 +7,6 @@ export const api = createApi({
     credentials: "include",
   }),
   refetchOnMountOrArgChange: 30,
-  tagTypes: ["flower"],
+  tagTypes: ["user","flower"],
   endpoints: () => ({}),
 });

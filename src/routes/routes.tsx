@@ -35,16 +35,17 @@ const routes = createBrowserRouter([
         path: "/sale-history",
         element: <SaleHistory />,
       },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
+      },
     ],
   },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/signup',
-    element: <Signup />,
-  },
+  
   {
     path: '*',
     element: <NotFound />,
