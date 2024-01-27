@@ -42,6 +42,14 @@ const flowerApi = api.injectEndpoints({
       }),
       invalidatesTags: ["flower"],
     }),
+    updateFlower: builder.mutation({
+      query: ({id,...flowerData}) => ({
+        url: `/flower/update-flower/${id}`,
+        method: "PATCH",
+        body: flowerData
+      }),
+      invalidatesTags: ["flower"],
+    }),
   }),
 });
 
@@ -49,4 +57,5 @@ export const {
   useCreateFlowerMutation,
   useGetAllFlowerQuery,
   useDeleteFlowerMutation,
+  useUpdateFlowerMutation
 } = flowerApi;

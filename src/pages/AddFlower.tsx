@@ -11,19 +11,8 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { useCreateFlowerMutation } from "../redux/features/flower/flowerApi";
+import { IFlower } from "../types/addFlowerType";
 
-export type IFlower = {
-  name: string;
-  img: string;
-  price: string;
-  quantity: number;
-  bloom_date: string;
-  color: { value: string };
-  type: { value: string };
-  size: { value: string };
-  fragrance: { value: string };
-  occation: { value: string };
-};
 
 const AddFlower = () => {
   const [createFlower, {isSuccess, error}] = useCreateFlowerMutation()

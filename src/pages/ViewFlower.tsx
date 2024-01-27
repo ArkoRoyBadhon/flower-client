@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { stateType } from "../types/addFlowerType";
 import Pagination from "../utils/pagination";
+import EditModals from "../components/editModals";
 
 const ViewFlower = () => {
   const [Dmodal, setDModal] = useState(false);
@@ -30,14 +31,14 @@ const ViewFlower = () => {
   const [selectedBloom, setSelectedBloom] = useState<any>("");
   const [pageNum, setPageNum] = useState("1");
   // edit
-  // const [editUser, setEditUser] = useState(false);
-  // const [EUser, setEUser] = useState<any>();
+  const [editFlower, setEditFlower] = useState<boolean | any>(false);
+  const [EFlower, setEFlower] = useState<any>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formattedDate = selectedBloom
     ? new Date(selectedBloom).toISOString().split("T")[0]
     : "";
 
-  console.log("date", formattedDate);
   const {
     data: AllFlower,
     isLoading,
@@ -153,7 +154,7 @@ const ViewFlower = () => {
       </h2>
 
       {Dmodal && detailModal}
-      {/* {editUser && <EditModals EUser={EUser} setEditUser={setEditUser} />} */}
+      {editFlower && <EditModals EFlower={EFlower} setEditFlower={setEditFlower} />}
 
       <div className="mt-5">
         <h4 className="">Filter</h4>
@@ -285,8 +286,8 @@ const ViewFlower = () => {
                       </button>
                       <button
                         onClick={() => {
-                          // setEditUser(true);
-                          // setEUser(item);
+                          setEditFlower(true);
+                          setEFlower(item);
                         }}
                         className="px-2 py-1 rounded-md bg-green hover:bg-deeper hover:text-white cursor-pointer transition-all ease-in"
                       >
