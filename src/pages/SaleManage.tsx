@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
@@ -14,6 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { stateType } from "../types/addFlowerType";
 import Pagination from "../utils/pagination";
+import SaleModal from "../components/saleModal";
 
 const SaleManage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -26,6 +28,10 @@ const SaleManage = () => {
   const [selectedOccation, setSelectedOccation] = useState<stateType | null>();
   const [selectedBloom, setSelectedBloom] = useState<any>("");
   const [pageNum, setPageNum] = useState("1");
+
+  // for modals
+  const [sellToggle, setSellToggle] = useState(false);
+  const [flowerInfo, setFlowerInfo] = useState();
 
   const {
     data: flowerData,
@@ -48,7 +54,8 @@ const SaleManage = () => {
   };
 
   const pageCount = Math.ceil(
-    Number(flowerData?.data?.meta?.count) / Number(flowerData?.data?.meta?.limit)
+    Number(flowerData?.data?.meta?.count) /
+      Number(flowerData?.data?.meta?.limit)
   );
 
   const handlePageChange = (page: any) => {
@@ -156,6 +163,9 @@ const SaleManage = () => {
           </div>
         </div>
         <hr />
+        {sellToggle && (
+          <SaleModal setSellToggle={setSellToggle} flowerInfo={flowerInfo} />
+        )}
         <div className="mt-5 grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-x-10 gap-x-0">
           {flowerData?.data?.data?.map((item: any) => {
             return (
@@ -187,7 +197,13 @@ const SaleManage = () => {
                       View
                     </div>
                   </Link>
-                  <div className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center">
+                  <div
+                    onClick={() => {
+                      setFlowerInfo(item);
+                      setSellToggle(true);
+                    }}
+                    className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center"
+                  >
                     Sell
                   </div>
                 </div>

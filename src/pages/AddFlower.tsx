@@ -55,6 +55,7 @@ const AddFlower = () => {
 
       const flowerData = {
         ...data,
+        quantity: Number(data?.quantity),
         img: responseData?.data?.url,
         bloom_date: formattedDate,
         color: data?.color?.value,
