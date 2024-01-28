@@ -1,30 +1,31 @@
-# React + TypeScript + Vite
+## Flower Dashboard (Inventory)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Link: https://flower-client.netlify.app
 
-Currently, two official plugins are available:
+## Backend Live Link: https://flower-server.vercel.app 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Backend Code: https://github.com/ArkoRoyBadhon/flower-server
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Login Admin
+```bash
+admin@gmail.com
+```
+```bash
+1234
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### You can also create a new user by registration.
+
+## technologies
+- React JS
+- Tailwind CSS
+- JWT Authentication
+- Redux Toolkit with RTK Query
+- imgBB
+
+## Features
+- admin have full control of everything
+- admin can add flower to inventory
+- admin can edit, delete and update flower info
+- user can list and sell history
