@@ -289,6 +289,7 @@ const EditModals = ({
                 value="Update Flower"
               />
             </div>
+            {errors && <p className="text-red-500">There are form errors!</p>}
           </form>
         </div>
       </div>

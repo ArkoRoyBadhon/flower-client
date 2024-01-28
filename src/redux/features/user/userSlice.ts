@@ -7,6 +7,7 @@ export interface IRootState {
     name: string | null;
     role: string | null;
   };
+  accessToken: string | null;
 }
 
 export const initialState: IRootState = {
@@ -16,6 +17,7 @@ export const initialState: IRootState = {
     name: null,
     role: null,
   },
+  accessToken: null,
 };
 
 const userSlice = createSlice({
@@ -28,9 +30,12 @@ const userSlice = createSlice({
       state.user.name = action?.payload?.name || null;
       state.user.role = action?.payload?.role || null;
     },
+    setAccessToken: (state, action) => {
+      state.accessToken = action?.payload;
+    },
   },
 });
 
-export const { setLoggedInfo } = userSlice.actions;
+export const { setLoggedInfo, setAccessToken } = userSlice.actions;
 
 export default userSlice.reducer;

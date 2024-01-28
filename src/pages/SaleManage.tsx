@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link } from "react-router-dom";
 import { useGetAllFlowerQuery } from "../redux/features/flower/flowerApi";
 import { useState } from "react";
 import {
@@ -35,12 +34,7 @@ const SaleManage = () => {
   const [sellToggle, setSellToggle] = useState(false);
   const [flowerInfo, setFlowerInfo] = useState();
 
-  const {
-    data: flowerData,
-    isLoading,
-    isSuccess,
-    error,
-  } = useGetAllFlowerQuery({
+  const { data: flowerData } = useGetAllFlowerQuery({
     searchVal,
     selectedColor,
     selectedFragrance,
@@ -88,7 +82,7 @@ const SaleManage = () => {
                   />
                   <p
                     onClick={() => handleSearch()}
-                    className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
+                    className="bg-gray-200 px-2 py-1 rounded-r-md cursor-pointer hover:bg-green hover:text-white transition-all ease-in"
                   >
                     Search
                   </p>
@@ -174,55 +168,52 @@ const SaleManage = () => {
             <SaleModal setSellToggle={setSellToggle} flowerInfo={flowerInfo} />
           )}
           <div className="mt-5 grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-x-10 gap-x-0">
-            {flowerData?.data?.data.length > 0 ? flowerData?.data?.data?.map((item: any) => {
-              return (
-                <div
-                  key={item?._id}
-                  className="w-[300px] h-fit shadow-md rounded-md "
-                >
-                  <div className="w-full h-[50%] overflow-hidden">
-                    <img
-                      className="rounded-t-md w-full transition-transform transform hover:scale-110 h-[180px] bg-gray-200"
-                      src={item?.img}
-                      alt="img"
-                    />
-                  </div>
-                  <div className="p-3 text-[16px]">
-                    <p className="font-semibold">{item?.name}</p>
-                    <p className="">
-                      <span className="font-semibold">Price: </span>{" "}
-                      {item?.price}
-                    </p>
-                    <p className="">
-                      <span className="font-semibold">Color: </span>{" "}
-                      {item?.color}
-                    </p>
-                    <p className="">
-                      <span className="font-semibold">Quantity: </span>
-                      {item?.quantity}
-                    </p>
-                    <Link to={`/single-service/${item?._id}`} className="">
-                      <div className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center">
-                        View
+            {flowerData?.data?.data.length > 0 ? (
+              flowerData?.data?.data?.map((item: any) => {
+                return (
+                  <div
+                    key={item?._id}
+                    className="w-[300px] h-fit shadow-md rounded-md "
+                  >
+                    <div className="w-full h-[50%] overflow-hidden">
+                      <img
+                        className="rounded-t-md w-full transition-transform transform hover:scale-110 h-[180px] bg-gray-200"
+                        src={item?.img}
+                        alt="img"
+                      />
+                    </div>
+                    <div className="p-3 text-[16px]">
+                      <p className="font-semibold">{item?.name}</p>
+                      <p className="">
+                        <span className="font-semibold">Price: </span>{" "}
+                        {item?.price}
+                      </p>
+                      <p className="">
+                        <span className="font-semibold">Color: </span>{" "}
+                        {item?.color}
+                      </p>
+                      <p className="">
+                        <span className="font-semibold">Quantity: </span>
+                        {item?.quantity}
+                      </p>
+                      <div
+                        onClick={() => {
+                          setFlowerInfo(item);
+                          setSellToggle(true);
+                        }}
+                        className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center cursor-pointer"
+                      >
+                        Sell
                       </div>
-                    </Link>
-                    <div
-                      onClick={() => {
-                        setFlowerInfo(item);
-                        setSellToggle(true);
-                      }}
-                      className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center cursor-pointer"
-                    >
-                      Sell
                     </div>
                   </div>
-                </div>
-              );
-            }) :
-            <div className="py-10">
-                  <h2 className="text-center font-semibold">No Data Found!</h2>
-                </div>
-            }
+                );
+              })
+            ) : (
+              <div className="py-10">
+                <h2 className="text-center font-semibold">No Data Found!</h2>
+              </div>
+            )}
           </div>
 
           <div className="mt-10">

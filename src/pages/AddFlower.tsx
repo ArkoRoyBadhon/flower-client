@@ -35,6 +35,9 @@ const AddFlower = () => {
     toast("Error Occured", {
       toastId: "flower-error",
     });
+
+    // console.log("error", error);
+    
   }
 
   const img_hosting_token = import.meta.env.VITE_PUBLIC_IMAGE_UPLOAD;
@@ -82,7 +85,7 @@ const AddFlower = () => {
   };
 
   return (
-    <div className="p-10">
+    <div className="p-10 mb-20">
       <h1 className="text-[24px] font-bold text-green w-full">Add Flower</h1>
       {!user.email ? (
         <div className="p-10">

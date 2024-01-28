@@ -12,6 +12,12 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const token = localStorage.getItem("accessToken")
+
+  if(token) {
+    query.refetch()
+  }
+
   useEffect(() => {
     if (query.isSuccess) {
       dispatch(setLoggedInfo(query.data?.data));

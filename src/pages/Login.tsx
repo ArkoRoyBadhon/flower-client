@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../redux/features/user/userApi";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
-
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setAccessToken } from "../redux/features/user/userSlice";
 
 type FormValues = {
   email: string;
@@ -12,34 +13,46 @@ type FormValues = {
 };
 
 const Login = () => {
-  const [userLogin,{isSuccess, error}] = useLoginUserMutation();
+  const [userLogin, { isSuccess, error }] = useLoginUserMutation();
+
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.user)
+
+
+  const { register, handleSubmit } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       const res = await userLogin(data).unwrap();
-      console.log(res);
-      navigate('/');
+      // console.log(res);
+      if (res?.data.accessToken) {
+        localStorage.setItem("accessToken", res?.data?.accessToken);
+        // console.log(res?.data?.accessToken);
+
+        dispatch(setAccessToken(res?.data?.accessToken));
+        // window.location.reload();
+      }
+      navigate("/");
     } catch (err: any) {
       console.error(err.message);
     }
   };
-  
+
   if (isSuccess) {
     toast("User Logged in succesfully!", {
       toastId: "login",
     });
   }
-  
+
   if (error) {
     toast((error as any)?.data.message, {
       toastId: "login-error",
     });
+  }
+
+  if(user?.email) {
+    navigate("/")
   }
 
   return (

@@ -20,15 +20,13 @@ const Signup = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      console.log("data", data);
-      const res = await createUser(data).unwrap();
+      // console.log("data", data);
+      await createUser(data).unwrap();
 
-      console.log(res);
       navigate("/login");
       reset();
     } catch (err: any) {
@@ -126,6 +124,11 @@ const Signup = () => {
         <Link className="font-bold text-green" to="/login">
           Login
         </Link>
+      </div>
+      <div className="mt-5 text-center text-orange text-[20px]">
+        <p>This is for normal user Registration</p>
+        <p>This Registration do not grant you to management functionalitites</p>
+        <p>Only admin can access.</p>
       </div>
     </div>
   );

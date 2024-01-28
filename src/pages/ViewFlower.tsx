@@ -40,20 +40,33 @@ const ViewFlower = () => {
   const [editFlower, setEditFlower] = useState<boolean | any>(false);
   const [EFlower, setEFlower] = useState<any>();
 
+  const [minPrice, setMinPrice] = useState<number | undefined>();
+  const [maxPrice, setMaxPrice] = useState<number | undefined>();
+
+  // console.log("min price", minPrice);
+  // console.log(typeof minPrice);
+
   const {
     data: AllFlower,
     isLoading,
     isSuccess,
-  } = useGetAllFlowerQuery({
-    searchVal,
-    selectedColor,
-    selectedFragrance,
-    selectedOccation,
-    selectedSize,
-    selectedType,
-    ...(selectedBloom !== null && { selectedBloom: selectedBloom }),
-    pageNum,
-  });
+  } = useGetAllFlowerQuery(
+    {
+      searchVal,
+      selectedColor,
+      selectedFragrance,
+      selectedOccation,
+      selectedSize,
+      selectedType,
+      ...(selectedBloom !== null && { selectedBloom: selectedBloom }),
+      ...(minPrice !== undefined && { minPrice: minPrice! }),
+      ...(maxPrice !== undefined && { maxPrice: maxPrice! }),
+      pageNum,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const [deleteFlower, { isSuccess: isSuccessDelete, error }] =
     useDeleteFlowerMutation();
   const detailModal = (
@@ -118,7 +131,7 @@ const ViewFlower = () => {
 
   const handleDelUser = (id: string) => {
     deleteFlower(id);
-    console.log(id);
+    // console.log(id);
   };
 
   if (isSuccessDelete) {
@@ -177,12 +190,34 @@ const ViewFlower = () => {
                   />
                   <p
                     onClick={() => handleSearch()}
-                    className="bg-light px-2 py-1 rounded-r-md cursor-pointer hover:bg-deep hover:text-white transition-all ease-in"
+                    className="bg-gray-200 px-2 py-1 rounded-r-md cursor-pointer hover:bg-green hover:text-white transition-all ease-in"
                   >
                     Search
                   </p>
                 </div>
+
                 <div className="flex flex-wrap gap-5 w-fit pt-5">
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
+                    <label htmlFor="selectgender">Min Price:</label>
+                    <input
+                      onChange={(e: any) =>
+                        setMinPrice(parseInt(e.target.value))
+                      }
+                      type="number"
+                      placeholder="price"
+                    />
+                  </div>
+                  <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
+                    <label htmlFor="selectgender">Max Price:</label>
+                    <input
+                      onChange={(e: any) =>
+                        setMaxPrice(parseInt(e.target.value))
+                      }
+                      type="number"
+                      placeholder="price"
+                    />
+                  </div>
+
                   <div className="outline outline-1 outline-light px-2 py-[2px] rounded-md flex justify-between items-center md:gap-5 md:mb-5">
                     <label htmlFor="selectgender">Color:</label>
                     <Select
@@ -270,7 +305,11 @@ const ViewFlower = () => {
                   {/* Add more headers as needed */}
                 </tr>
               </thead>
-              {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
+              {isLoading && (
+                <div className="w-full h-[100px] flex justify-center items-center">
+                  Loading...
+                </div>
+              )}
               <tbody>
                 {isSuccess && AllFlower?.data?.data.length > 0 ? (
                   AllFlower?.data?.data.map((item: any) => {

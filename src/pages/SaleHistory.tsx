@@ -9,14 +9,12 @@ const SaleHistory = () => {
   const [saleHistory, setSaleHistory] = useState("all");
   const {
     data: saleData,
-    isSuccess,
     isLoading,
-    error,
   } = useGetAllSaleQuery({
     saleHistory,
   });
 
-  console.log("SS",saleData?.data?.data);
+  // console.log("SS",saleData?.data?.data);
   
 
   return (
@@ -55,7 +53,7 @@ const SaleHistory = () => {
                   {/* Add more headers as needed */}
                 </tr>
               </thead>
-              {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
+              {isLoading && <div className="w-full h-[100px] flex justify-center items-center">Loading...</div>}
               <tbody>
                 {(saleData?.data?.data.length > 0) ?
                 // <div className="">adat</div>

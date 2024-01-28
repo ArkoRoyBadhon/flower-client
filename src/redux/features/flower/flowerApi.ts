@@ -31,6 +31,12 @@ const flowerApi = api.injectEndpoints({
           ...(option?.selectedBloom && {
             bloom_date: option.selectedBloom,
           }),
+          ...(option?.minPrice && {
+            minPrice: option.minPrice,
+          }),
+          ...(option?.maxPrice && {
+            maxPrice: option.maxPrice,
+          }),
         },
       }),
       providesTags: ["flower"],

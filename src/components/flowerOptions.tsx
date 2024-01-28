@@ -14,10 +14,8 @@ export const typeOptions: {value:string, label:string}[] = [
   { value: "rose", label: "Rose" },
   { value: "lily", label: "Lily" },
   { value: "tulip", label: "Tulip" },
-  { value: "daisy", label: "Daisy" },
   { value: "sunflower", label: "Sunflower" },
   { value: "orchid", label: "Orchid" },
-  { value: "carnation", label: "Carnation" },
 ];
 
 export const sizeOptions: {value:string, label:string}[] = [

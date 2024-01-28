@@ -6,7 +6,7 @@ import { MdOutlineCrisisAlert } from "react-icons/md";
 import { LuHistory } from "react-icons/lu";
 
 const Sidebar = () => {
-  const [isFVisible, setFVisible] = useState(false);
+  const [isFVisible, setFVisible] = useState(true);
 
   const toggleSubMenu = (sub: string) => {
     if (sub === "flower") setFVisible(!isFVisible);

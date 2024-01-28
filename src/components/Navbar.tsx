@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLogOutMutation } from "../redux/features/user/userApi";
 import { useAppSelector } from "../redux/hook";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [logOut] = useLogOutMutation();
@@ -9,6 +10,10 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await logOut(undefined);
+    localStorage.setItem("accessToken", "")
+    toast("Logout success", {
+      toastId: "logout-id"
+    })
   };
 
   return (
