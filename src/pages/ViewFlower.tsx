@@ -19,6 +19,7 @@ import { stateType } from "../types/addFlowerType";
 import Pagination from "../utils/pagination";
 import EditModals from "../components/editModals";
 import { useAppSelector } from "../redux/hook";
+import { toast } from "react-toastify";
 
 const ViewFlower = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -33,7 +34,7 @@ const ViewFlower = () => {
   const [selectedFragrance, setSelectedFragrance] =
     useState<stateType | null>();
   const [selectedOccation, setSelectedOccation] = useState<stateType | null>();
-  const [selectedBloom, setSelectedBloom] = useState<any>("");
+  const [selectedBloom, setSelectedBloom] = useState<any>(null);
   const [pageNum, setPageNum] = useState("1");
   // edit
   const [editFlower, setEditFlower] = useState<boolean | any>(false);
@@ -50,14 +51,11 @@ const ViewFlower = () => {
     selectedOccation,
     selectedSize,
     selectedType,
-    selectedBloom,
+    ...(selectedBloom !== null && { selectedBloom: selectedBloom }),
     pageNum,
   });
   const [deleteFlower, { isSuccess: isSuccessDelete, error }] =
     useDeleteFlowerMutation();
-  // const [updateUser, { isSuccess: isSuccessUpdate, error: errorUpdate }] =
-  //   useUpdateUserMutation();
-
   const detailModal = (
     <div className="fixed z-10 top-[100px] h-[400px] bg-gray-200 shadow-md w-[400px] rounded-md overflow-hidden overflow-y-auto">
       <div className="flex justify-end">
@@ -124,16 +122,16 @@ const ViewFlower = () => {
   };
 
   if (isSuccessDelete) {
-    console.log("delete success");
+    toast("Flower Deleted Successfully", {
+      toastId: "flower-delete",
+    });
   }
 
   if (error) {
-    console.log("error", (error as any)?.data.message);
+    toast("Flower Deleted Failed", {
+      toastId: "flower-delete-error",
+    });
   }
-
-  // if (errorUpdate) {
-  //   console.log("error", (errorUpdate as any)?.data.message);
-  // }
 
   const handleSearch = () => {
     setSearchVal(searchValue);
@@ -274,8 +272,7 @@ const ViewFlower = () => {
               </thead>
               {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
               <tbody>
-                {isSuccess &&
-                  AllFlower &&
+                {isSuccess && AllFlower?.data?.data.length > 0 ? (
                   AllFlower?.data?.data.map((item: any) => {
                     return (
                       <tr key={item._id}>
@@ -310,7 +307,14 @@ const ViewFlower = () => {
                         </td>
                       </tr>
                     );
-                  })}
+                  })
+                ) : (
+                  <div className="py-10">
+                    <h2 className="text-center font-semibold">
+                      No Data Found!
+                    </h2>
+                  </div>
+                )}
               </tbody>
             </table>
           </div>

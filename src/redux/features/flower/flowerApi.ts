@@ -29,7 +29,7 @@ const flowerApi = api.injectEndpoints({
           ...(option?.selectedSize && { size: option.selectedSize.value }),
           ...(option?.selectedType && { type: option.selectedType.value }),
           ...(option?.selectedBloom && {
-            bloom_date: option.selectedBloom.value,
+            bloom_date: option.selectedBloom,
           }),
         },
       }),

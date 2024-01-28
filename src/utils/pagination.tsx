@@ -9,7 +9,6 @@ const Pagination = ({ totalPages, onPageChange }:any) => {
       onPageChange(page);
     };
   
-    // Generate an array of page numbers from 1 to totalPages
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
   
     return (
@@ -18,7 +17,7 @@ const Pagination = ({ totalPages, onPageChange }:any) => {
           {pages.map((page) => (
             <li
               key={page}
-              className={`px-4 py-1 cursor-pointer border border-r border-green hover:bg-light transition-all ease-in ${currentPage === page ? 'active bg-deeper text-green' : ''}`}
+              className={`px-4 py-1 cursor-pointer border border-r border-green hover:bg-green hover:text-white transition-all ease-in ${currentPage === page ? 'active bg-green text-white' : ''}`}
               onClick={() => handlePageChange(page)}
             >
               {page}

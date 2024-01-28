@@ -6,7 +6,7 @@ import { useAppSelector } from "../redux/hook";
 
 const SaleHistory = () => {
   const { user } = useAppSelector((state) => state.user);
-  const [saleHistory, setSaleHistory] = useState("yearly");
+  const [saleHistory, setSaleHistory] = useState("all");
   const {
     data: saleData,
     isSuccess,
@@ -16,10 +16,13 @@ const SaleHistory = () => {
     saleHistory,
   });
 
+  console.log("SS",saleData?.data?.data);
+  
+
   return (
     <div className="p-10">
       <h2 className="text-[24px] font-bold text-green w-full">Sale History</h2>
-      {!user.email ? (
+      {!user?.email ? (
         <div className="p-10">
           <h5 className="font-bold text-[24px]">
             Please Login to access this page!
@@ -33,6 +36,7 @@ const SaleHistory = () => {
               onChange={(e) => setSaleHistory(e.target.value)}
               className="border rounded-md px-2 py-1"
             >
+              <option value="all">All Time</option>
               <option value="yearly">Yearly</option>
               <option value="monthly">Monthly</option>
               <option value="weekly">Weekly</option>
@@ -53,24 +57,29 @@ const SaleHistory = () => {
               </thead>
               {isLoading && <div className="bg-red-500 w-full">Loading...</div>}
               <tbody>
-                {isSuccess &&
-                  saleData &&
+                {(saleData?.data?.data.length > 0) ?
+                // <div className="">adat</div>
                   saleData?.data?.data.map((item: any) => {
                     return (
-                      <tr key={item._id}>
+                      <tr key={item?._id}>
                         <td className="py-2 px-4 border-b">
-                          {item.flower_id.name}
+                          {item?.flower_name}
                         </td>
                         <td className="py-2 px-4 border-b">
-                          {item.seller_name}
+                          {item?.seller_name}
                         </td>
-                        <td className="py-2 px-4 border-b">{item.quantity}</td>
+                        <td className="py-2 px-4 border-b">{item?.quantity}</td>
                         <td className="py-2 px-4 border-b flex gap-2">
-                          {item.sell_date}
+                          {item?.sell_date}
                         </td>
                       </tr>
                     );
-                  })}
+                  })
+                  :
+                  <div className="py-10">
+                    <h2 className="text-center font-semibold">No Data Found</h2>
+                  </div>
+                  }
               </tbody>
             </table>
           </div>

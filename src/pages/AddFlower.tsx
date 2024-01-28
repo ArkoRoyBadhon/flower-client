@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useCreateFlowerMutation } from "../redux/features/flower/flowerApi";
 import { IFlower } from "../types/addFlowerType";
 import { useAppSelector } from "../redux/hook";
+import { toast } from "react-toastify";
 
 const AddFlower = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -21,15 +22,19 @@ const AddFlower = () => {
     control,
     register,
     handleSubmit,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm<IFlower>();
 
   if (isSuccess) {
-    console.log("add Success");
+    toast("Flower Added SuccessFully", {
+      toastId: "flower-create",
+    });
   }
   if (error) {
-    console.log(error);
+    toast("Error Occured", {
+      toastId: "flower-error",
+    });
   }
 
   const img_hosting_token = import.meta.env.VITE_PUBLIC_IMAGE_UPLOAD;
@@ -50,8 +55,6 @@ const AddFlower = () => {
 
       const responseData = await response.json();
 
-      // console.log("response Data", responseData?.data?.url);
-
       const formattedDate = data.bloom_date
         ? new Date(data.bloom_date).toISOString().split("T")[0]
         : "";
@@ -68,11 +71,11 @@ const AddFlower = () => {
         occation: data?.occation?.value,
       };
 
-      console.log("payload", flowerData);
+      // console.log("payload", flowerData);
 
       await createFlower(flowerData);
       // setImage(null);
-      // reset();
+      reset();
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -162,7 +165,7 @@ const AddFlower = () => {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <DatePicker
                       showIcon
-                      minDate={new Date()}
+                      // minDate={new Date()}
                       onChange={onChange}
                       onBlur={onBlur}
                       dateFormat="yyyy-MM-dd"

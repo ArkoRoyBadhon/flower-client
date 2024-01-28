@@ -13,6 +13,7 @@ import {
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
 
 const EditModals = ({
   EFlower,
@@ -38,7 +39,7 @@ const EditModals = ({
     formData.append("image", data.img[0]);
 
     try {
-      let responseData
+      let responseData;
       if (data.img[0]) {
         const response = await fetch(
           `https://api.imgbb.com/1/upload?key=${img_hosting_token}`,
@@ -60,7 +61,7 @@ const EditModals = ({
       const flowerData = {
         ...data,
         img: responseData?.data?.url || EFlower?.img,
-        bloom_date: formattedDate,
+        bloom_date: formattedDate || EFlower?.bloom_date,
         color: data?.color?.value,
         type: data?.type?.value,
         size: data?.size?.value,
@@ -71,7 +72,7 @@ const EditModals = ({
       // console.log("payload", flowerData);
       const info = { flowerData, id: EFlower?._id };
 
-      console.log("INFO", info);
+      // console.log("INFO", info);
 
       await updateFlower(info);
       // setImage(null);
@@ -82,10 +83,15 @@ const EditModals = ({
   };
 
   if (isSuccess) {
-    console.log("User Updated");
+    setEditFlower(false);
+    toast("Flower Updated", {
+      toastId: "flower-update",
+    });
   }
   if (error) {
-    console.log("failed", (error as any)?.data?.message);
+    toast((error as any)?.data?.message, {
+      toastId: "update-error",
+    });
   }
 
   const color = colorOptions.find(
@@ -195,7 +201,7 @@ const EditModals = ({
                   render={({ field: { onChange, onBlur, value } }) => (
                     <DatePicker
                       showIcon
-                      minDate={new Date()}
+                      // minDate={new Date()}
                       onChange={onChange}
                       onBlur={onBlur}
                       dateFormat="yyyy-MM-dd"

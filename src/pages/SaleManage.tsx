@@ -79,7 +79,7 @@ const SaleManage = () => {
             <h4 className="">Filter</h4>
             <div className="">
               <div className="h-fit py-5">
-                <div className="flex outline w-[400px] rounded-md outline-1 outline-light">
+                <div className="flex outline md:w-[400px] rounded-md outline-1 outline-light">
                   <input
                     className="w-full px-2 outline-none"
                     onChange={(e) => setSearchValue(e.target.value)}
@@ -174,7 +174,7 @@ const SaleManage = () => {
             <SaleModal setSellToggle={setSellToggle} flowerInfo={flowerInfo} />
           )}
           <div className="mt-5 grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-x-10 gap-x-0">
-            {flowerData?.data?.data?.map((item: any) => {
+            {flowerData?.data?.data.length > 0 ? flowerData?.data?.data?.map((item: any) => {
               return (
                 <div
                   key={item?._id}
@@ -182,7 +182,7 @@ const SaleManage = () => {
                 >
                   <div className="w-full h-[50%] overflow-hidden">
                     <img
-                      className="rounded-t-md w-full transition-transform transform hover:scale-110 h-[180px] bg-red-500"
+                      className="rounded-t-md w-full transition-transform transform hover:scale-110 h-[180px] bg-gray-200"
                       src={item?.img}
                       alt="img"
                     />
@@ -211,14 +211,18 @@ const SaleManage = () => {
                         setFlowerInfo(item);
                         setSellToggle(true);
                       }}
-                      className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center"
+                      className="bg-gray-200 hover:bg-green px-3 py-1 mt-3 rounded-md w-full hover:text-white transition-all ease-in text-center cursor-pointer"
                     >
                       Sell
                     </div>
                   </div>
                 </div>
               );
-            })}
+            }) :
+            <div className="py-10">
+                  <h2 className="text-center font-semibold">No Data Found!</h2>
+                </div>
+            }
           </div>
 
           <div className="mt-10">

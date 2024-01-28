@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 
 const MainLayout = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
   const currentRoute: string = location.pathname;
-  useEffect(()=>{
-    setMobileMenu(false)
-  },[currentRoute])
+  
+  useEffect(() => {
+    setMobileMenu(false);
+  }, [currentRoute]);
+
   return (
     <div className="relative overflow-hidden">
       <div className="hidden md:block">
@@ -34,7 +36,7 @@ const MainLayout = () => {
         </div>
         <div
           className={`absolute z-10 w-[80vw] h-[100vh] bg-gray-200 transition-all ease-in top-0 ${
-            mobileMenu ? "left-0" : "left-[-500px]"
+            mobileMenu ? "left-0" : "left-[-800px]"
           }`}
         >
           <div className="flex justify-end">
@@ -46,7 +48,7 @@ const MainLayout = () => {
             </div>
           </div>
           <div className="mt-5">
-            <Sidebar  />
+            <Sidebar />
           </div>
         </div>
         <div className=" w-[100%] min-h-[100vh]">

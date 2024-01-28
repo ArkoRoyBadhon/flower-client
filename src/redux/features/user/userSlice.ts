@@ -7,7 +7,6 @@ export interface IRootState {
     name: string | null;
     role: string | null;
   };
-  // accessToken: string | null;
 }
 
 export const initialState: IRootState = {
@@ -17,7 +16,6 @@ export const initialState: IRootState = {
     name: null,
     role: null,
   },
-  // accessToken: null,
 };
 
 const userSlice = createSlice({
