@@ -2,7 +2,7 @@
 
 ## Live Link: https://flower-client.vercel.app
 
-## Backend Live Link: https://flower-server.vercel.app
+## Backend Live Link: https://flower-client.netlify.app
 
 ## Backend Code: https://github.com/ArkoRoyBadhon/flower-server
 
